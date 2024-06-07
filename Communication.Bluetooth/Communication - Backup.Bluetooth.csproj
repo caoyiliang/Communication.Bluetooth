@@ -12,8 +12,6 @@
 		<PackageIcon>logo.png</PackageIcon>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/caoyiliang/Communication.Bluetooth</RepositoryUrl>
-		<PackageReleaseNotes>更新通讯库依赖</PackageReleaseNotes>
-		<PackageProjectUrl>https://github.com/caoyiliang/Communication.Bluetooth</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup>

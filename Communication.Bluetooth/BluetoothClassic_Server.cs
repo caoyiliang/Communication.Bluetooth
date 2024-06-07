@@ -36,6 +36,13 @@ namespace Communication.Bluetooth
             await Task.CompletedTask;
         }
 
+        /// <inheritdoc/>
+        public async Task<string?> GetClientInfos(int clientId)
+        {
+            if (!_dicClients.TryGetValue(clientId, out var client)) return default;
+            return await Task.FromResult($"{client.Client.AddressFamily}");
+        }
+
         public async Task SendDataAsync(int clientId, byte[] data)
         {
             try

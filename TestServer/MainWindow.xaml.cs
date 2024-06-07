@@ -10,16 +10,16 @@ namespace TestServer
     /// </summary>
     public partial class MainWindow : Window
     {
-        BluetoothClassic_Server _BluetoothClassic_Server = new();
+        private readonly BluetoothClassic_Server _BluetoothClassic_Server = new();
         int _clientId;
         public MainWindow()
         {
             InitializeComponent();
             BluetoothRadio.Default.Mode = RadioMode.Connectable;
-            _BluetoothClassic_Server.OnReceiveOriginalDataFromClient += _BluetoothClassic_Server_OnReceiveOriginalDataFromClient;
+            _BluetoothClassic_Server.OnReceiveOriginalDataFromClient += BluetoothClassic_Server_OnReceiveOriginalDataFromClient;
         }
 
-        private async Task _BluetoothClassic_Server_OnReceiveOriginalDataFromClient(byte[] data, int size, int clientId)
+        private async Task BluetoothClassic_Server_OnReceiveOriginalDataFromClient(byte[] data, int size, int clientId)
         {
             _clientId = clientId;
 

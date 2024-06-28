@@ -12,8 +12,8 @@ namespace TestClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        BluetoothClassic _bluetoothClassic;
-        ITopPort topPort;
+        BluetoothClassic? _bluetoothClassic;
+        ITopPort? topPort;
         public MainWindow()
         {
             InitializeComponent();
@@ -55,7 +55,7 @@ namespace TestClient
 
         private async void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            await topPort.SendAsync(Encoding.UTF8.GetBytes(s.Text));
+            await topPort!.SendAsync(Encoding.UTF8.GetBytes(s.Text));
         }
     }
 }

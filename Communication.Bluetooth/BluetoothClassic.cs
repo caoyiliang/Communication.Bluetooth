@@ -9,8 +9,8 @@ namespace Communication.Bluetooth
     public class BluetoothClassic(string address) : IPhysicalPort
     {
         private bool _disposed = false;
-        private BluetoothClient _bluetoothClient = new();
-        private BluetoothAddress _bluetoothAddress = new(BluetoothAddress.Parse(address));
+        private readonly BluetoothClient _bluetoothClient = new();
+        private readonly BluetoothAddress _bluetoothAddress = new(BluetoothAddress.Parse(address));
         private NetworkStream? _networkStream;
         public bool IsOpen => _bluetoothClient.Connected;
 

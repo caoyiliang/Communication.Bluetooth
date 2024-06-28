@@ -11,7 +11,7 @@ namespace Communication.Bluetooth
     public class BluetoothClassic_Server(int bufferSize = 8192) : IPhysicalPort_Server
     {
         private static readonly ILogger _logger = Logs.LogFactory.GetLogger<BluetoothClassic_Server>();
-        private readonly ConcurrentDictionary<int, BluetoothClient> _dicClients = new();
+        private readonly ConcurrentDictionary<Guid, BluetoothClient> _dicClients = new();
         private BluetoothListener? _listener;
         private CancellationTokenSource? _stopCts;
         private TaskCompletionSource<bool>? _stopTcs;
@@ -22,7 +22,7 @@ namespace Communication.Bluetooth
         public event ClientConnectEventHandler? OnClientConnect;
         public event ClientDisconnectEventHandler? OnClientDisconnect;
 
-        public async Task DisconnectClientAsync(int clientId)
+        public async Task DisconnectClientAsync(Guid clientId)
         {
             if (!_dicClients.TryGetValue(clientId, out var client)) return;
             try
@@ -37,13 +37,13 @@ namespace Communication.Bluetooth
         }
 
         /// <inheritdoc/>
-        public async Task<string?> GetClientInfos(int clientId)
+        public async Task<string?> GetClientInfos(Guid clientId)
         {
             if (!_dicClients.TryGetValue(clientId, out var client)) return default;
             return await Task.FromResult($"{client.Client.AddressFamily}");
         }
 
-        public async Task SendDataAsync(int clientId, byte[] data)
+        public async Task SendDataAsync(Guid clientId, byte[] data)
         {
             try
             {
@@ -92,7 +92,6 @@ namespace Communication.Bluetooth
         {
             _ = Task.Run(async () =>
             {
-                var clientCounter = 0;
                 try
                 {
                     while (!_stopCts!.IsCancellationRequested)
@@ -106,8 +105,7 @@ namespace Communication.Bluetooth
                         {
                             continue;
                         }
-                        int clientId = clientCounter;
-                        clientCounter++;
+                        var clientId = Guid.NewGuid();
                         var remoteEndPoint = client.Client.RemoteEndPoint as IPEndPoint;
                         _dicClients.TryAdd(clientId, client);
                         try
@@ -151,7 +149,7 @@ namespace Communication.Bluetooth
             await Task.CompletedTask;
         }
 
-        private async Task HandleClientAsync(BluetoothClient client, int clientId)
+        private async Task HandleClientAsync(BluetoothClient client, Guid clientId)
         {
             try
             {

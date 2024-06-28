@@ -11,7 +11,7 @@ namespace TestServer
     public partial class MainWindow : Window
     {
         private readonly BluetoothClassic_Server _BluetoothClassic_Server = new();
-        int _clientId;
+        Guid _clientId;
         public MainWindow()
         {
             InitializeComponent();
@@ -19,7 +19,7 @@ namespace TestServer
             _BluetoothClassic_Server.OnReceiveOriginalDataFromClient += BluetoothClassic_Server_OnReceiveOriginalDataFromClient;
         }
 
-        private async Task BluetoothClassic_Server_OnReceiveOriginalDataFromClient(byte[] data, int size, int clientId)
+        private async Task BluetoothClassic_Server_OnReceiveOriginalDataFromClient(byte[] data, int size, Guid clientId)
         {
             _clientId = clientId;
 
